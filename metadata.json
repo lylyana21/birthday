@@ -1,0 +1,6 @@
+{
+  "name": "Birthday Scrapbook 💙",
+  "description": "A little corner of the internet filled with memories, words, and things I want you to keep.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
