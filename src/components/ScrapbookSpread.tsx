@@ -312,13 +312,6 @@ export function ScrapbookSpread({
             </div>
           </div>
         </div>
-
-        {/* Floating Quick Action: Scan QR Standee */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 hidden sm:block">
-          <div className="bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full border border-sky-800/40 text-[11px] text-sky-300 shadow flex items-center gap-2">
-            <span>Scan QR di meja untuk menambahkan foto & ucapanmu sekarang</span>
-          </div>
-        </div>
       </div>
     </div>
   );

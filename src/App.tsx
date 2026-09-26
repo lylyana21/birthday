@@ -19,6 +19,7 @@ import { GiftsSlide } from './components/GiftsSlide';
 import { MessagePolaroidSlide } from './components/MessagePolaroidSlide';
 import { FlowersSlide } from './components/FlowersSlide';
 import { CakeCollageSlide } from './components/CakeCollageSlide';
+import { BackgroundMusic } from './components/BackgroundMusic';
 
 interface ScrapbookData {
   recipientName: string;
@@ -105,10 +106,9 @@ export default function App() {
   // 6: Scrapbook Spread 1 (Pages 01 & 02)
   // 7: Scrapbook Spread 2 (Pages 03 & 04)
   // 8: Scrapbook Spread 3 (Pages 05 & 06)
-  // 9: Scrapbook Spread 4 (Pages 07 & 08)
-  // 10: End Card (Playlist & Video)
+  // 9: End Card (Playlist & Video)
   const [currentSlide, setCurrentSlide] = useState(0);
-  const totalSlides = 11;
+  const totalSlides = 10;
 
   const [soundEnabled, setSoundEnabled] = useState(sfx.isEnabled());
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -134,11 +134,11 @@ export default function App() {
     }
     setCurrentSlide(next);
 
-    // Burst confetti when reaching slide 1, 2, 3, 4, 5, 9 or 10
-    if (next === 1 || next === 2 || next === 3 || next === 4 || next === 5 || next === 9 || next === 10) {
+    // Burst confetti ONLY when entering page 2 (slide index 1)
+    if (next === 1) {
       confetti({
-        particleCount: 55,
-        spread: 70,
+        particleCount: 65,
+        spread: 75,
         origin: { y: 0.65 },
         colors: ['#ff72ba', '#ffe000', '#075b93', '#c98ee9', '#ffffff'],
       });
@@ -243,38 +243,19 @@ export default function App() {
         className="hidden"
       />
 
-      {/* MINIMAL TOP BAR (No next/prev buttons, strictly title and controls) */}
-      <header className="w-full bg-[#031d33]/85 backdrop-blur-md border-b border-sky-900/30 px-3 sm:px-6 py-2 flex items-center justify-between z-40 text-xs select-none">
-        {/* Left: Branding & slide indicator */}
-        <div className="flex items-center gap-2">
-          <span className="text-sky-200/90 font-medium tracking-wide">
-            Birthday Scrapbook 💙
-          </span>
-          <span className="text-sky-400/60 font-mono text-[11px]">
-            · {currentSlide + 1} / {totalSlides}
-          </span>
-        </div>
+      {/* Background YouTube Music Autoplay (Hidden player, no UI button per user request) */}
+      <BackgroundMusic />
 
-        {/* Right: Sound & Quick Edit */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleSound}
-            className="p-1.5 bg-white/10 hover:bg-white/20 text-white rounded-lg border border-white/10 transition-colors"
-            title={soundEnabled ? 'Matikan Suara' : 'Nyalakan Suara'}
-          >
-            {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-          </button>
-
-          <button
-            onClick={() => setIsEditModalOpen(true)}
-            className="flex items-center gap-1 px-2.5 py-1.5 bg-[#ff72ba] hover:bg-[#ff55ad] text-white rounded-lg font-bold shadow-xs transition-transform active:scale-95"
-            title="Edit Scrapbook"
-          >
-            <Settings className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Edit</span>
-          </button>
-        </div>
-      </header>
+      {/* Floating Action Controls (Clean, no header bar taking up screen space) */}
+      <div className="fixed top-3 right-3 z-50 flex items-center gap-2 select-none pointer-events-auto">
+        <button
+          onClick={() => setIsEditModalOpen(true)}
+          className="p-2 bg-[#ff72ba]/80 hover:bg-[#ff55ad] backdrop-blur-md text-white rounded-full border border-white/20 transition-all cursor-pointer shadow-lg active:scale-95"
+          title="Edit Scrapbook"
+        >
+          <Settings className="w-4 h-4" />
+        </button>
+      </div>
 
       {/* ========================================================================= */}
       {/* MAIN PRESENTATION STAGE (Slides Deck with Zoom In / Zoom Out Transitions) */}
@@ -684,7 +665,7 @@ export default function App() {
         </section>
 
         {/* ------------------------------------------------------------- */}
-        {/* SLIDE 8: SCRAPBOOK SPREAD 3 (Pages 05 & 06) */}
+        {/* SLIDE 8: SCRAPBOOK SPREAD 3 (Pages 05 & 06 - Grand Finale Spread) */}
         {/* ------------------------------------------------------------- */}
         <section className={`ppt-slide ${getSlideClass(8)} bg-[#095c8c] p-3 sm:p-6 select-none`}>
           <div className="w-full max-w-5xl my-auto">
@@ -692,34 +673,26 @@ export default function App() {
               <div className="book">
                 <article className="spread active">
                   {/* Page 05 */}
-                  <div className="page">
-                    <div className="tape t1"></div>
-                    <div className="page-title">
-                      Things I<br />love about you
-                    </div>
+                  <div className="page flex flex-col justify-between">
+                    <div>
+                      <div className="tape t1"></div>
+                      <div className="flower f1">✿</div>
+                      <div className="page-title">
+                        Things I<br />love about you
+                      </div>
 
-                    <div className="note" style={{ transform: 'rotate(-2deg)', marginTop: '30px', width: '90%' }}>
-                      ✦ the way you make me laugh<br />
-                      ✦ the little things you remember<br />
-                      ✦ how comfortable I feel with you<br />
-                      ✦ your random side<br />
-                      ✦ simply... you being you 🤍
-                    </div>
-
-                    <div className="sticker-heart h1">♥</div>
-                    <div className="page-number">05</div>
-                  </div>
-
-                  {/* Page 06 */}
-                  <div className="page dark">
-                    <div className="tape t2"></div>
-                    <div className="quote" style={{ marginTop: '15px' }}>
-                      “I hope we get to fill many more pages together.”
+                      <div className="note" style={{ transform: 'rotate(-2deg)', marginTop: '16px', width: '95%' }}>
+                        ✦ the way you make me laugh<br />
+                        ✦ the little things you remember<br />
+                        ✦ how comfortable I feel with you<br />
+                        ✦ your random side<br />
+                        ✦ simply... you being you 🤍
+                      </div>
                     </div>
 
                     <div 
                       className="polaroid group cursor-pointer" 
-                      style={{ width: '70%', marginTop: '40px', transform: 'rotate(3deg)' }}
+                      style={{ width: '64%', margin: '10px auto 0', transform: 'rotate(2deg)' }}
                       onClick={() => handleTriggerPhotoUpload('photo3')}
                       title="Klik untuk ganti foto"
                     >
@@ -732,16 +705,44 @@ export default function App() {
                       <div className="caption">{data.caption3}</div>
                     </div>
 
-                    <div className="page-number">06</div>
+                    <div className="sticker-heart h1">♥</div>
+                    <div className="page-number">05</div>
+                  </div>
 
-                    {/* Pure Text "click here →" (No buttons, no footer) */}
-                    <div 
-                      onClick={nextSlide}
-                      className="absolute bottom-4 right-8 sm:right-12 cursor-pointer select-none group z-30"
-                    >
-                      <span className="font-['Caveat'] text-2xl sm:text-3xl text-yellow-300 group-hover:text-pink-300 font-bold underline underline-offset-4 decoration-2 transition-colors filter drop-shadow-xs">
-                        click here →
-                      </span>
+                  {/* Page 06 (Dark Denim Finale) */}
+                  <div className="page dark flex flex-col justify-between">
+                    <div>
+                      <div className="tape t2"></div>
+                      <div className="quote" style={{ marginTop: '10px' }}>
+                        Happy Birthday,<br />my favorite person. 💙
+                      </div>
+
+                      <div className="stitched" style={{ marginTop: '16px' }}>
+                        <p style={{ fontFamily: 'Caveat, cursive', fontSize: '24px', lineHeight: '1.2' }}>
+                          Here's to another year, another chapter, and filling many more pages together ✨
+                        </p>
+                      </div>
+
+                      <div className="note" style={{ fontSize: '18px', marginTop: '16px', lineHeight: '1.4' }}>
+                        I hope this year brings you closer to everything you've been dreaming about.<br /><br />
+                        May you stay healthy, happy, loved, and proud of how far you've come. And remember you're never alone. 🤍
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flower f2">✿</div>
+                      <div className="sticker-heart h2">♥</div>
+                      <div className="page-number">06</div>
+
+                      {/* Pure Text "click here →" (No buttons, no footer) */}
+                      <div 
+                        onClick={nextSlide}
+                        className="absolute bottom-4 right-8 sm:right-12 cursor-pointer select-none group z-30"
+                      >
+                        <span className="font-['Caveat'] text-2xl sm:text-3xl text-yellow-300 group-hover:text-pink-300 font-bold underline underline-offset-4 decoration-2 transition-colors filter drop-shadow-xs">
+                          click here →
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </article>
@@ -751,67 +752,9 @@ export default function App() {
         </section>
 
         {/* ------------------------------------------------------------- */}
-        {/* SLIDE 9: SCRAPBOOK SPREAD 4 (Pages 07 & 08) */}
+        {/* SLIDE 9: END CARD SLIDE (Playlist & Video Links + Replay) */}
         {/* ------------------------------------------------------------- */}
-        <section className={`ppt-slide ${getSlideClass(9)} bg-[#095c8c] p-3 sm:p-6 select-none`}>
-          <div className="w-full max-w-5xl my-auto">
-            <div className="book-wrap">
-              <div className="book">
-                <article className="spread active">
-                  {/* Page 07 */}
-                  <div className="page">
-                    <div className="flower f1">✿</div>
-                    <div className="page-title">
-                      For your<br />new year ✨
-                    </div>
-
-                    <div className="note">
-                      I hope this year brings you closer to everything you've been dreaming about.
-                      <br /><br />
-                      May you stay healthy, happy, loved, and proud of how far you've come.
-                      <br /><br />
-                      And if life gets hard sometimes, I hope you remember that you don't have to go
-                      through it alone.
-                    </div>
-
-                    <div className="page-number">07</div>
-                  </div>
-
-                  {/* Page 08 */}
-                  <div className="page dark">
-                    <div className="quote">
-                      Happy Birthday,<br />my favorite person. 💙
-                    </div>
-
-                    <div className="stitched">
-                      <p style={{ fontFamily: 'Caveat, cursive', fontSize: '28px', lineHeight: '1.1' }}>
-                        Here's to another year, another chapter, and hopefully many more pages with you.
-                      </p>
-                    </div>
-
-                    <div className="sticker-heart h2">♥</div>
-                    <div className="page-number">08</div>
-
-                    {/* Pure Text "click here →" (No buttons, no footer) */}
-                    <div 
-                      onClick={nextSlide}
-                      className="absolute bottom-4 right-8 sm:right-12 cursor-pointer select-none group z-30"
-                    >
-                      <span className="font-['Caveat'] text-2xl sm:text-3xl text-yellow-300 group-hover:text-pink-300 font-bold underline underline-offset-4 decoration-2 transition-colors filter drop-shadow-xs">
-                        click here →
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ------------------------------------------------------------- */}
-        {/* SLIDE 10: END CARD SLIDE (Playlist & Video Links + Replay) */}
-        {/* ------------------------------------------------------------- */}
-        <section className={`ppt-slide ${getSlideClass(10)} bg-[#052b47] p-4 sm:p-6 select-none`}>
+        <section className={`ppt-slide ${getSlideClass(9)} bg-[#052b47] p-4 sm:p-6 select-none`}>
           <div className="end-card my-auto">
             <h3>There's still one more thing... 💌</h3>
             <p>

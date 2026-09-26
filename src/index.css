@@ -91,14 +91,15 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  transition: transform 0.7s cubic-bezier(0.25, 1, 0.35, 1), opacity 0.55s ease, filter 0.5s ease;
   will-change: transform, opacity, filter;
   overflow-y: auto;
   overflow-x: hidden;
+  perspective: 2000px;
 }
 
 .ppt-slide.slide-active {
-  transform: scale(1) translateZ(0);
+  transform: translate3d(0, 0, 0) scale(1) rotateY(0deg);
   opacity: 1;
   filter: blur(0px);
   pointer-events: auto;
@@ -106,17 +107,17 @@ body {
 }
 
 .ppt-slide.slide-prev {
-  transform: scale(1.35) translateZ(60px);
+  transform: translate3d(-100px, 0, -180px) rotateY(14deg) scale(0.92);
   opacity: 0;
-  filter: blur(8px);
+  filter: blur(6px);
   pointer-events: none;
   z-index: 5;
 }
 
 .ppt-slide.slide-next {
-  transform: scale(0.65) translateZ(-60px);
+  transform: translate3d(100px, 0, -180px) rotateY(-14deg) scale(0.92);
   opacity: 0;
-  filter: blur(8px);
+  filter: blur(6px);
   pointer-events: none;
   z-index: 5;
 }
@@ -299,6 +300,7 @@ body {
   width: min(1050px, 100%);
   margin: auto;
   position: relative;
+  perspective: 2600px;
 }
 
 .book {
@@ -306,9 +308,23 @@ body {
   width: 100%;
   aspect-ratio: 1.72/1;
   min-height: 460px;
-  perspective: 1800px;
+  perspective: 2600px;
   user-select: none;
   touch-action: pan-y;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ppt-slide.slide-active .book {
+  transform: rotateX(2deg) translateY(0);
+}
+
+.ppt-slide.slide-prev .book {
+  transform: rotateY(-28deg) translateZ(-60px) scale(0.94);
+}
+
+.ppt-slide.slide-next .book {
+  transform: rotateY(28deg) translateZ(-60px) scale(0.94);
 }
 
 .spread {
@@ -317,18 +333,21 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: #d9e0df;
-  border-radius: 7px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  border-radius: 9px;
+  box-shadow: 
+    0 24px 50px -10px rgba(0, 0, 0, 0.38),
+    0 12px 24px -10px rgba(4, 38, 68, 0.4);
   overflow: hidden;
   opacity: 0;
-  transform: translateX(20px) scale(0.985);
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transform: rotateY(16deg) scale(0.96);
+  transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.25, 1, 0.35, 1);
   pointer-events: none;
+  transform-origin: center center;
 }
 
 .spread.active {
   opacity: 1;
-  transform: translateX(0) scale(1);
+  transform: rotateY(0deg) scale(1);
   pointer-events: auto;
 }
 
@@ -338,12 +357,21 @@ body {
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 14px;
+  width: 18px;
   transform: translateX(-50%);
-  background: repeating-linear-gradient(to bottom, #ffffff 0 7px, #a8afb1 7px 10px);
+  background: linear-gradient(
+    90deg, 
+    rgba(0, 0, 0, 0.28) 0%, 
+    rgba(255, 255, 255, 0.25) 20%, 
+    #a8afb1 45%, 
+    #ffffff 50%, 
+    #a8afb1 55%, 
+    rgba(255, 255, 255, 0.25) 80%, 
+    rgba(0, 0, 0, 0.28) 100%
+  );
   z-index: 20;
-  opacity: 0.9;
-  box-shadow: 0 0 4px rgba(0,0,0,0.25);
+  opacity: 0.95;
+  box-shadow: 0 0 8px rgba(0,0,0,0.25);
 }
 
 .page {
@@ -407,6 +435,9 @@ body {
   transform: rotate(-12deg);
   user-select: none;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  animation: heartFloat 3.8s ease-in-out infinite alternate;
+  display: inline-block;
+  will-change: transform;
 }
 .sticker-heart.h1 {
   left: 8%;
@@ -416,6 +447,7 @@ body {
   right: 7%;
   bottom: 10%;
   color: #719bd0;
+  animation-delay: 0.8s;
 }
 
 .flower {
@@ -425,6 +457,9 @@ body {
   opacity: 0.95;
   user-select: none;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+  animation: flowerSway 4.5s ease-in-out infinite alternate;
+  display: inline-block;
+  will-change: transform;
 }
 .flower.f1 {
   right: 7%;
@@ -434,6 +469,54 @@ body {
   left: 6%;
   bottom: 10%;
   font-size: 38px;
+  animation-delay: 1.2s;
+}
+
+.paperclip {
+  animation: clipSpring 4.2s ease-in-out infinite alternate;
+  display: inline-block;
+  will-change: transform;
+}
+
+@keyframes flowerSway {
+  0% {
+    transform: rotate(-8deg) translateY(0);
+  }
+  100% {
+    transform: rotate(10deg) translateY(-4px);
+  }
+}
+
+@keyframes heartFloat {
+  0% {
+    transform: rotate(-14deg) scale(0.96);
+  }
+  100% {
+    transform: rotate(-4deg) scale(1.08) translateY(-5px);
+  }
+}
+
+@keyframes clipSpring {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-3px) rotate(4deg);
+  }
+}
+
+@keyframes polaroidDropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.92) rotate(-10deg);
+  }
+  70% {
+    transform: translateY(3px) scale(1.02) rotate(-4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(-5deg);
+  }
 }
 
 .polaroid {
@@ -444,12 +527,13 @@ body {
   box-shadow: 0 9px 17px rgba(0, 0, 0, 0.2);
   transform: rotate(-5deg);
   position: relative;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
   cursor: pointer;
+  animation: polaroidDropIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 .polaroid:hover {
-  transform: rotate(0deg) scale(1.03) !important;
-  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.28);
+  transform: translateY(-8px) scale(1.04) rotate(0deg) !important;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.32);
 }
 
 .photo-placeholder {

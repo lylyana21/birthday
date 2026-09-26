@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import confetti from 'canvas-confetti';
 import { 
   X, 
   Upload, 
@@ -92,14 +91,6 @@ export function SubmissionModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!senderName.trim() || !message.trim()) return;
-
-    // Trigger celebration confetti
-    confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#ff4794', '#0284c7', '#ffd214', '#c084fc', '#ffffff'],
-    });
 
     sfx.playSparkle();
 

@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Heart } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { X, Sparkles, Heart, Music, Video, ArrowLeft, RotateCcw } from 'lucide-react';
 import { sfx } from '../utils/audio';
 
 interface GiftsSlideProps {
   recipientName: string;
-  onNext: () => void;
+  onNext?: () => void;
+  onPrev?: () => void;
+  onGoToCover?: () => void;
   onOpenMessage?: () => void;
   onOpenFlower?: () => void;
   onOpenCake?: () => void;
   customMessage?: string;
   onUpdateMessage?: (newMsg: string) => void;
+  spotifyLink?: string;
+  videoLink?: string;
 }
 
 export function GiftsSlide({ 
   recipientName = 'Olivia', 
   onNext, 
+  onPrev,
+  onGoToCover,
   onOpenMessage,
   onOpenFlower,
   onOpenCake,
-  customMessage 
+  customMessage,
+  spotifyLink,
+  videoLink,
 }: GiftsSlideProps) {
   const [activeModal, setActiveModal] = useState<'message' | 'flower' | 'cake' | null>(null);
   const [candleBlown, setCandleBlown] = useState(false);
@@ -54,12 +61,6 @@ export function GiftsSlide({
     if (!candleBlown) {
       setCandleBlown(true);
       sfx.playFanfare();
-      confetti({
-        particleCount: 80,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#71c4f9', '#ff72ba', '#ffe000', '#ffffff', '#22c55e'],
-      });
     }
   };
 
@@ -400,16 +401,51 @@ export function GiftsSlide({
 
       </div>
 
-      {/* BOTTOM NAVIGATION: "click here →" */}
-      <div className="z-10 mb-2 sm:mb-4 flex flex-col items-center">
-        <div 
-          onClick={onNext}
-          className="cursor-pointer select-none group inline-flex items-center gap-1.5 transition-transform hover:scale-105"
-        >
-          <span className="font-['Cormorant_Garamond'] italic text-2xl sm:text-3xl text-white group-hover:text-yellow-200 underline underline-offset-8 decoration-white/70 group-hover:decoration-yellow-200 font-semibold transition-colors filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
-            click here →
-          </span>
-        </div>
+      {/* ACTION BUTTONS (Exclusively button-controlled navigation) */}
+      <div className="z-20 mt-2 mb-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-2 select-none">
+        {onPrev && (
+          <button
+            onClick={onPrev}
+            className="px-4 py-2 rounded-full bg-white/20 hover:bg-white/35 backdrop-blur-md text-white border border-white/30 text-xs sm:text-sm font-['Fredoka'] font-medium transition-all shadow-md active:scale-95 cursor-pointer flex items-center gap-1.5"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Kembali ke Foto</span>
+          </button>
+        )}
+
+        {spotifyLink && (
+          <a
+            href={spotifyLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full bg-[#1db954] hover:bg-[#1ed760] text-black font-bold text-xs sm:text-sm font-['Fredoka'] transition-all shadow-md active:scale-95 flex items-center gap-1.5"
+          >
+            <Music className="w-4 h-4" />
+            <span>Playlist Kita</span>
+          </a>
+        )}
+
+        {videoLink && (
+          <a
+            href={videoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full bg-[#e50914] hover:bg-[#ff1e2a] text-white font-bold text-xs sm:text-sm font-['Fredoka'] transition-all shadow-md active:scale-95 flex items-center gap-1.5"
+          >
+            <Video className="w-4 h-4" />
+            <span>Video Kenangan</span>
+          </a>
+        )}
+
+        {onGoToCover && (
+          <button
+            onClick={onGoToCover}
+            className="px-4 py-2 rounded-full bg-sky-600/80 hover:bg-sky-500 text-white font-bold text-xs sm:text-sm font-['Fredoka'] transition-all shadow-md active:scale-95 cursor-pointer flex items-center gap-1.5"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Mulai Dari Awal</span>
+          </button>
+        )}
       </div>
 
       {/* ============================================================== */}
@@ -501,12 +537,6 @@ export function GiftsSlide({
               <button 
                 onClick={() => {
                   sfx.playSparkle();
-                  confetti({
-                    particleCount: 50,
-                    spread: 60,
-                    origin: { y: 0.6 },
-                    colors: ['#ff85b3', '#ff659c', '#ffffff', '#ffd166'],
-                  });
                   setActiveModal(null);
                 }}
                 className="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white font-sans font-bold rounded-2xl shadow-lg transition-transform hover:scale-102 cursor-pointer"

@@ -93,18 +93,20 @@ export function MessagePolaroidSlide({
       <div className="relative z-30 flex items-center justify-between px-3 sm:px-8 pt-3 sm:pt-6">
         <button
           onClick={onBackToGifts}
-          className="cursor-pointer group flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-black/35 hover:bg-black/55 backdrop-blur-md text-white/90 hover:text-white border border-white/20 text-xs sm:text-sm font-['Fredoka'] transition-all shadow-md active:scale-95"
+          className="cursor-pointer group flex items-center justify-center p-2 sm:p-2.5 rounded-full bg-black/35 hover:bg-black/55 backdrop-blur-md text-white/90 hover:text-white border border-white/20 transition-all shadow-md active:scale-95"
+          title="Kembali ke Hadiah"
+          aria-label="Kembali ke Hadiah"
         >
-          <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" />
-          <span>Kembali ke Hadiah</span>
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
         </button>
 
         <button
           onClick={onNextPage}
-          className="cursor-pointer group flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-[#087fbd]/80 hover:bg-[#087fbd] backdrop-blur-md text-white border border-white/30 text-xs sm:text-sm font-['Fredoka'] font-semibold transition-all shadow-md hover:shadow-lg active:scale-95"
+          className="cursor-pointer group flex items-center justify-center p-2 sm:p-2.5 rounded-full bg-[#087fbd]/80 hover:bg-[#087fbd] backdrop-blur-md text-white border border-white/30 transition-all shadow-md hover:shadow-lg active:scale-95"
+          title="Album Kenangan"
+          aria-label="Album Kenangan"
         >
-          <span>Album Kenangan</span>
-          <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 transition-transform" />
         </button>
       </div>
 
@@ -430,29 +432,6 @@ export function MessagePolaroidSlide({
 
         </div>
 
-      </div>
-
-      {/* FOOTER BAR (Mockup hints matching reference photo footer: "Resize on mobile", etc.) */}
-      <div className="relative z-30 px-4 py-2 sm:py-3 flex items-center justify-between text-white/80 text-[11px] sm:text-xs font-sans border-t border-white/10 bg-black/20 backdrop-blur-xs">
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 text-sky-200">
-            <Sparkles className="w-3 h-3 text-yellow-300" />
-            <span>Tema Biru Spesial</span>
-          </span>
-          <span className="hidden sm:inline text-white/40">•</span>
-          <span className="hidden sm:inline text-white/70">
-            Klik foto polaroid atau amplop untuk melihat detail
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setIsLetterExpanded(true)}
-            className="cursor-pointer text-sky-200 hover:text-white underline underline-offset-2 transition-colors font-medium"
-          >
-            Buka Surat Lengkap 💌
-          </button>
-        </div>
       </div>
 
       {/* ============================================================== */}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Camera, X, Sparkles, ArrowLeft, ArrowRight, Disc, Play, Pause, Volume2, Heart } from 'lucide-react';
-import confetti from 'canvas-confetti';
+import { Camera, X, Sparkles, ArrowLeft, ArrowRight, Play, Pause, Volume2, Heart } from 'lucide-react';
 import { sfx } from '../utils/audio';
 
 interface CakeCollageSlideProps {
@@ -46,12 +45,6 @@ export function CakeCollageSlide({
     } else {
       setIsPlayingMusic(true);
       sfx.playSparkle();
-      confetti({
-        particleCount: 35,
-        spread: 60,
-        origin: { y: 0.5, x: 0.5 },
-        colors: ['#71c4f9', '#ff85b3', '#ffd166', '#ffffff'],
-      });
       stopMusicRef.current = sfx.startMusicBox(() => {
         setIsPlayingMusic(false);
       });
@@ -119,10 +112,11 @@ export function CakeCollageSlide({
       <div className="relative z-30 flex items-center justify-between px-3 sm:px-8 pt-3 sm:pt-6">
         <button
           onClick={onBack}
-          className="cursor-pointer group flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/90 hover:text-white border border-white/20 text-xs sm:text-sm font-['Fredoka'] transition-all shadow-md active:scale-95"
+          className="cursor-pointer group flex items-center justify-center p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/90 hover:text-white border border-white/20 transition-all shadow-md active:scale-95"
+          title="Kembali ke Hadiah"
+          aria-label="Kembali ke Hadiah"
         >
-          <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" />
-          <span>Kembali ke Hadiah</span>
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
         </button>
 
         <div className="flex items-center gap-2">
@@ -135,10 +129,11 @@ export function CakeCollageSlide({
 
           <button
             onClick={onNext}
-            className="cursor-pointer group flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full bg-[#087fbd]/80 hover:bg-[#087fbd] backdrop-blur-md text-white border border-white/30 text-xs sm:text-sm font-['Fredoka'] font-semibold transition-all shadow-md hover:shadow-lg active:scale-95"
+            className="cursor-pointer group flex items-center justify-center p-2 sm:p-2.5 rounded-full bg-[#087fbd]/80 hover:bg-[#087fbd] backdrop-blur-md text-white border border-white/30 transition-all shadow-md hover:shadow-lg active:scale-95"
+            title="Album Kenangan"
+            aria-label="Album Kenangan"
           >
-            <span>Album Kenangan</span>
-            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>
       </div>
@@ -441,21 +436,6 @@ export function CakeCollageSlide({
 
         </div>
 
-      </div>
-
-      {/* FOOTER BAR: HINT & INTERACTION */}
-      <div className="relative z-30 px-4 py-2 sm:py-3 flex items-center justify-between text-white/80 text-[11px] sm:text-xs font-sans border-t border-white/10 bg-black/25 backdrop-blur-xs">
-        <div className="flex items-center gap-2">
-          <Disc className={`w-3.5 h-3.5 text-yellow-300 ${isPlayingMusic ? 'animate-spin' : ''}`} />
-          <span>Klik piringan hitam (*vinyl*) untuk memutar musik boks romantis 🎶</span>
-        </div>
-
-        <button
-          onClick={onNext}
-          className="text-sky-200 hover:text-white underline underline-offset-2 transition-colors cursor-pointer font-medium"
-        >
-          Lanjut ke Lembaran Scrapbook →
-        </button>
       </div>
 
       {/* ============================================================== */}
